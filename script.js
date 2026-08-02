@@ -69,8 +69,7 @@ function updatePasswordRequirements(){
 
 
 function handlePasswordInput(){
-a
-
+    
     if(passwordInput.validity.valueMissing){
         passwordInput.setCustomValidity("Please enter a password.")
     }else if( !patterns.password.test(passwordInput.value)){
