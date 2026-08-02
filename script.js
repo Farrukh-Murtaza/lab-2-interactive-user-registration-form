@@ -13,12 +13,13 @@ const passwordRequirements = [];
 
 
 const patterns = {
+    username: /^[a-zA-Z\d._-]{3,16}$/ ,
     email: /^[a-zA-Z\d._%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/ ,
     password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/
     //Email verification because html validation doesn't check after @/s for ". com"
 }
 
-// console.log(username, usernameError, email, password, emailError, passwordError, confirmPassword)
+form
 
 document.addEventListener("DOMContentLoaded", () =>{
     const username = localStorage.getItem("username");
@@ -29,14 +30,19 @@ document.addEventListener("DOMContentLoaded", () =>{
     
 });
 
-usernameInput.addEventListener("input", (event) => {
 
-    if(localStorage.getItem("username") !== null){
-        localStorage.setItem("username",'');
-    }
+function handleUserNameValidation(){
+   if (usernameInput.validity.valueMissing) {
+    usernameInput.setCustomValidity("Enter a username that is too short.");
+  } else if (usernameInput.validity.typeMismatch || !patterns.username.test(usernameInput.value)) {
+    usernameInput.setCustomValidity("3–16 characters. Letters, numbers, _, or - only.");
+  } else {
+    usernameInput.setCustomValidity(""); 
+  }
 
-    localStorage.setItem('username', event.target.value.trim());
-})
+   usernameError.textContent = usernameInput.validationMessage;
+}
+
 
 function handleEmailInput(){
    if (emailInput.validity.valueMissing) {
@@ -103,6 +109,17 @@ function handleConfirmPasswordInput(){
 
 }
 
+
+usernameInput.addEventListener("input", (event) => {
+
+    if(localStorage.getItem("username") !== null){
+        localStorage.setItem("username",'');
+    }
+
+    localStorage.setItem('username', event.target.value.trim());
+    handleUserNameValidation()
+})
+
 emailInput.addEventListener('input', handleEmailInput);
 passwordInput.addEventListener('input', handlePasswordInput);
 confirmPasswordInput.addEventListener("input", handleConfirmPasswordInput);
@@ -110,6 +127,7 @@ confirmPasswordInput.addEventListener("input", handleConfirmPasswordInput);
 
 form.addEventListener("submit", (event) => {
     event.preventDefault();
+    handleUserNameValidation()
     handleEmailInput();
     handlePasswordInput()
     handleConfirmPasswordInput()
