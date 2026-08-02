@@ -7,9 +7,15 @@ const emailError = document.getElementById("emailError");
 const passwordInput = document.getElementById("password");
 const passwordError = document.getElementById("passwordError");
 const confirmPasswordInput = document.getElementById("confirmPassword");
+const passwordRequirementsList = document.getElementById("passwordRequirements");
+
+const passwordRequirements = [];
+
 
 const patterns = {
-    email: /^[a-zA-Z\d._%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/ //Email verification because html validation doesn't check after @/s for ". com"
+    email: /^[a-zA-Z\d._%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/ ,
+    password: /^(=?.*[a-z])(=?.*[A-Z])(=?.*[0-9]).{8,}$/
+    //Email verification because html validation doesn't check after @/s for ". com"
 }
 
 // console.log(username, usernameError, email, password, emailError, passwordError, confirmPassword)
@@ -32,7 +38,7 @@ usernameInput.addEventListener("input", (event) => {
     localStorage.setItem('username', event.target.value.trim());
 })
 
-function handleInputEvents(){
+function handleEmailInput(){
    if (emailInput.validity.valueMissing) {
     emailInput.setCustomValidity("Please fill out this field. Email cannot be blank.");
   } else if (emailInput.validity.typeMismatch || !patterns.email.test(emailInput.value)) {
@@ -45,12 +51,51 @@ function handleInputEvents(){
 }
 
 
-// // emailInput.addEventListener('focusin', handleInputEvents);
-emailInput.addEventListener('input', handleInputEvents);
+function updatePasswordRequirements(){
+    const value = passwordInput.value;
+
+    // checking if the input have atleast 8 characters
+    passwordRequirementsList.children[0].classList.toggle('valid',  passwordInput.value.length >= 8)
+    // checking if the input have atleast 1 uppercase characters
+    passwordRequirementsList.children[1].classList.toggle('valid',  /[A-Z]/.test(passwordInput.value))
+    // checking if the input have atleast 1 lowercase characters
+    passwordRequirementsList.children[2].classList.toggle('valid',  /[a-z]/.test(passwordInput.value))
+     // checking if the input have atleast 1 lowercase characters
+    passwordRequirementsList.children[3].classList.toggle('valid',  /\d/.test(passwordInput.value))
+    
+
+    //  passwordError.textContent = passwordInput.validationMessage;
+}
+
+
+function handlePasswordInput(){
+a
+
+    if(passwordInput.validity.valueMissing){
+        passwordInput.setCustomValidity("Please enter a password.")
+    }else if( !patterns.password.test(passwordInput.value)){
+         passwordInput.setCustomValidity("Password must be at least 8 characters and include an uppercase letter, a lowercase letter, and a number.")
+    }else{
+         passwordInput.setCustomValidity("");
+    }
+
+    passwordError.textContent = passwordInput.validationMessage;
+    passwordInput.classList.toggle("valid", passwordInput.checkValidity());
+    
+    updatePasswordRequirements();
+   
+   
+}
+
+
+
+emailInput.addEventListener('input', handleEmailInput);
+passwordInput.addEventListener('input', handlePasswordInput);
 
 
 form.addEventListener("submit", (event) => {
     event.preventDefault();
-    handleInputEvents();
+    handleEmailInput();
+    handlePasswordInput()
     
 })

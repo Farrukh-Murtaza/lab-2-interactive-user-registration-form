@@ -48,10 +48,36 @@ h1 {
     /* Light red for invalid built-in states */
 }
 
-/* You can add a .valid class if you want to style valid inputs too */
+.password-requirements {
+    list-style: none;
+    padding-left: 0;
+    margin: 8px 0;
+    font-size: 13px;
+}
+
+.password-requirements li {
+    color: #999;
+    transition: color 0.2s ease;
+    padding-left: 22.4px;
+    position: relative;
+}
+
+.password-requirements li::before {
+    content: "○";
+    position: absolute;
+    left: 0;
+}
+
+.password-requirements li.valid {
+    color: #2e7d32;
+}
+
+.password-requirements li.valid::before {
+    content: "✓";
+}
 
 .form-group .error-message {
-    display: block;
+    /* display: block; */
     color: #e74c3c;
     /* Red for error messages */
     font-size: 0.9em;
@@ -59,6 +85,9 @@ h1 {
     min-height: 1em;
     /* Reserve space to prevent layout shifts */
 }
+
+
+
 
 .form-group small {
     display: block;

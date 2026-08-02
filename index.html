@@ -26,8 +26,12 @@
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password">
-                <small>Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and
-                    a number.</small>
+                <ul class="password-requirements" id="passwordRequirements">
+                    <li id="req-length">At least 8 characters</li>
+                    <li id="req-uppercase">Contains an uppercase letter</li>
+                    <li id="req-lowercase">Contains a lowercase letter</li>
+                    <li id="number">Contains a number</li>
+                </ul>
                 <span class="error-message" id="passwordError"></span>
             </div>
             <div class="form-group">
