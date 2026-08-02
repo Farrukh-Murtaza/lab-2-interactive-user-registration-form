@@ -14,7 +14,7 @@ const passwordRequirements = [];
 
 const patterns = {
     email: /^[a-zA-Z\d._%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/ ,
-    password: /^(=?.*[a-z])(=?.*[A-Z])(=?.*[0-9]).{8,}$/
+    password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/
     //Email verification because html validation doesn't check after @/s for ". com"
 }
 
@@ -55,16 +55,14 @@ function updatePasswordRequirements(){
     const value = passwordInput.value;
 
     // checking if the input have atleast 8 characters
-    passwordRequirementsList.children[0].classList.toggle('valid',  passwordInput.value.length >= 8)
+    passwordRequirementsList.children[0].classList.toggle('valid',  value.length >= 8)
     // checking if the input have atleast 1 uppercase characters
-    passwordRequirementsList.children[1].classList.toggle('valid',  /[A-Z]/.test(passwordInput.value))
+    passwordRequirementsList.children[1].classList.toggle('valid',  /[A-Z]/.test(value))
     // checking if the input have atleast 1 lowercase characters
-    passwordRequirementsList.children[2].classList.toggle('valid',  /[a-z]/.test(passwordInput.value))
+    passwordRequirementsList.children[2].classList.toggle('valid',  /[a-z]/.test(value))
      // checking if the input have atleast 1 lowercase characters
-    passwordRequirementsList.children[3].classList.toggle('valid',  /\d/.test(passwordInput.value))
+    passwordRequirementsList.children[3].classList.toggle('valid',  /\d/.test(value))
     
-
-    //  passwordError.textContent = passwordInput.validationMessage;
 }
 
 
@@ -82,19 +80,41 @@ function handlePasswordInput(){
     passwordInput.classList.toggle("valid", passwordInput.checkValidity());
     
     updatePasswordRequirements();
+    if (confirmPasswordInput.value) {
+        handleConfirmPasswordInput();
+    }
    
    
 }
 
 
+function handleConfirmPasswordInput(){
+    if (confirmPasswordInput.validity.valueMissing) {
+        confirmPasswordInput.setCustomValidity("Please confirm your password.");
+    } else if (confirmPasswordInput.value !== passwordInput.value) {
+        confirmPasswordInput.setCustomValidity("Passwords do not match.");
+    } else {
+        confirmPasswordInput.setCustomValidity("");
+    }
+
+    confirmPasswordError.textContent = confirmPasswordInput.validationMessage;
+    confirmPasswordInput.classList.toggle("valid", confirmPasswordInput.checkValidity());
+    
+
+}
 
 emailInput.addEventListener('input', handleEmailInput);
 passwordInput.addEventListener('input', handlePasswordInput);
+confirmPasswordInput.addEventListener("input", handleConfirmPasswordInput);
 
 
 form.addEventListener("submit", (event) => {
     event.preventDefault();
     handleEmailInput();
     handlePasswordInput()
-    
+    handleConfirmPasswordInput()
+
+     if (form.checkValidity()) {
+        alert("Form is valid!");
+    }
 })
