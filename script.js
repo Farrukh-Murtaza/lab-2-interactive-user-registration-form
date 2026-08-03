@@ -9,7 +9,30 @@ const passwordError = document.getElementById("passwordError");
 const confirmPasswordInput = document.getElementById("confirmPassword");
 const passwordRequirementsList = document.getElementById("passwordRequirements");
 
+const showPassword = document.getElementsByClassName("show-password");
+
 const passwordRequirements = [];
+
+
+
+form.addEventListener("click" , (event) => {
+
+    if(event.target.classList.contains('show-password')){
+
+        let isToggled = event.target.dataset.passwordToggle === "true";
+        
+        event.target.dataset.passwordToggle = !isToggled;
+        event.target.classList.toggle('show', !isToggled);
+        event.target.classList.toggle('hide', isToggled);
+       
+        const inputField = event.target.parentNode.children[1]; 
+        if (inputField) {
+            inputField.type = !isToggled ? "text" : "password";
+        }
+        
+    }
+    
+})
 
 
 const patterns = {
