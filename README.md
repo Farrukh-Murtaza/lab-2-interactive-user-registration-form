@@ -7,6 +7,7 @@ A client-side registration form built with vanilla HTML, CSS, and JavaScript. It
 - **Real-time validation** on every field as the user types, using `input` events and the Constraint Validation API (`validity`, `setCustomValidity`, `checkValidity`).
 - **Custom error messages** displayed inline under each field instead of the browser's default validation bubbles.
 - **Password strength checklist** that turns each requirement green as it's met (length, uppercase, lowercase, number).
+- **Password visibility toggle** on both the password and confirm password fields, implemented as a clickable icon that swaps between an open and closed eye (`./icons/eye-open.svg` / `./icons/eye-close.svg`) and switches the input's `type` between `password` and `text`.
 - **Confirm password matching**, re-checked automatically if the password is edited after confirm password is filled in.
 - **Username persistence** via `localStorage`, so the username field is pre-filled on page reload.
 
@@ -17,6 +18,8 @@ A client-side registration form built with vanilla HTML, CSS, and JavaScript. It
 | `index.html` | Form markup |
 | `style.css` | Styling, including error and valid states |
 | `script.js` | Validation logic and `localStorage` handling |
+| `icons/eye-open.svg` | Icon shown when password is hidden (click to reveal) |
+| `icons/eye-close.svg` | Icon shown when password is visible (click to hide) |
 
 ## Setup
 
@@ -39,8 +42,12 @@ A client-side registration form built with vanilla HTML, CSS, and JavaScript. It
    - Enter a password that is too short.
    - Enter a password that doesn't meet the pattern (e.g., all lowercase, no numbers).
    - Ensure the "Confirm Password" field shows an error if it doesn't match the password.
-5. **Test local storage persistence**: After a successful registration, refresh the page. The username field should be pre-filled with the value you entered.
-6. **Edge cases**: Think about what happens if a user tries to bypass validation (though client-side validation is mainly for UX, server-side is for security). What happens if `localStorage` is full or disabled (for this lab, we assume it works, but it's a real-world consideration)?
+5. **Test password visibility toggle**:
+   - Click the eye icon next to the password field; verify the icon swaps and the field's contents become plain text.
+   - Click it again; verify it reverts to masked dots and the icon swaps back.
+   - Repeat for the confirm password field, and confirm each toggle only affects its own field.
+6. **Test local storage persistence**: After a successful registration, refresh the page. The username field should be pre-filled with the value you entered.
+7. **Edge cases**: Think about what happens if a user tries to bypass validation (though client-side validation is mainly for UX, server-side is for security). What happens if `localStorage` is full or disabled (for this lab, we assume it works, but it's a real-world consideration)?
 
 ## Known Limitations
 
@@ -50,4 +57,3 @@ A client-side registration form built with vanilla HTML, CSS, and JavaScript. It
 ## Possible Extensions
 
 - Add server-side validation and persistence.
-- Add a password visibility toggle.
